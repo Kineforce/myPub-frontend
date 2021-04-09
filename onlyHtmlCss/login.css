@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  font-size: 30px;
+  font-family: monospace;
+  font-weight: 100;
+}
+
+article {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+header,
+main,
+footer {
+  flex-shrink: 0;
+}
+
+header {
+  background-color: white;
+  padding: 2rem;
+}
+
+header h2 {
+  color: purple;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 100;
+  text-align: center;
+}
+
+#box-login {
+  background-color: purple;
+  opacity: 1;
+  padding: 2rem;
+  width: 500px;
+  height: 500px;
+  border-radius: 0.25rem;
+}
+
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#login input {
+  min-width: 100%;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  font-size: 20px;
+}
+
+#login label {
+  color: white;
+}
+
+#login #feedback_msg {
+  color: white;
+  font-size: 20px;
+}
+
+input:required {
+  border-color: midnightblue;
+  border-width: 3px;
+}
+
+input:required:invalid {
+  border-color: red;
+}
+
+#login > * {
+  margin-bottom: 0.5rem;
+}
+
+footer {
+  color: white;
+  bottom: 0;
+  text-align: center;
+}
+
+footer h1 {
+  padding: 1rem;
+  font-size: 15px;
+  font-weight: 100;
+  opacity: 0.5;
+}
+
+/** Media queries **/
+
+@media only screen and (max-width: 500px) {
+  article {
+    position: relative;
+    width: 500px;
+    overflow: visible;
+  }
+
+  #box-login {
+    background-color: white;
+  }
+
+  #login label {
+    color: black;
+  }
+}

@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  font-size: 30px;
+  font-family: monospace;
+  font-weight: 100;
+}
+
+article {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 2rem 0 0 0;
+}
+
+header h2 {
+  color: purple;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 100;
+  text-align: center;
+}
+
+main {
+  display: flex;
+  margin: auto;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+header,
+main,
+footer {
+  flex-shrink: 0;
+}
+
+nav {
+  display: flex;
+  border-top: 1px solid black;
+  flex-direction: row;
+}
+
+nav span {
+  flex-grow: 1;
+  font-size: 15px;
+  padding: 10px;
+  cursor: pointer;
+  color: black;
+  text-align: center;
+}
+
+nav span:hover {
+  color: green;
+}
+
+.content {
+  position: relative;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  border: 1px solid purple;
+  background-color: white;
+}
+
+footer {
+  color: white;
+  bottom: 0;
+  text-align: center;
+}
+
+footer h1 {
+  padding: 1rem;
+  font-size: 15px;
+  font-weight: 100;
+  opacity: 0.5;
+}
