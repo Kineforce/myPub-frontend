@@ -15,6 +15,19 @@ const InterfaceLogin = () => {
     console.log(password);
   };
 
+  const handleValidation = () => {
+    if (
+      username !== "" &&
+      username.length <= 10 &&
+      password !== "" &&
+      password >= 10
+    ) {
+      console.log("Send JSON to API to validate user");
+    } else {
+      console.log("Wrong input!");
+    }
+  };
+
   return (
     <article id="article-login">
       <header id="header-login">myPub</header>
@@ -37,7 +50,12 @@ const InterfaceLogin = () => {
               placeholder="password"
               required
             />
-            <input type="submit" className="btn btn-primary" value="Login" />
+            <input
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleValidation}
+              value="Login"
+            />
             <span id="feedback_msg"></span>
           </form>
         </div>
