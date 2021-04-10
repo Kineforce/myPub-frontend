@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+#root,
+body {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+}
+
+#article-login {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#header-login {
+  text-align: center;
+  font-size: 50px;
+  font-weight: 700;
+  margin-top: 30px;
+  color: white;
+}
+
+#main-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+#main-login,
+#header-login,
+#footer-login {
+  flex-shrink: 0;
+}
+
+#footer-login {
+  color: white;
+  text-align: center;
+}
+
+#footer-login h1 {
+  font-size: 15px;
+  font-weight: 100;
+}
+
+#interface-login__box-login {
+  background-color: rgb(255, 255, 255);
+  padding: 2rem;
+  min-width: 400px;
+  height: 500px;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+}
+
+#feedback_msg {
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+
+.was-validated {
+  width: 330px;
+}
+
+.form-group > * {
+  margin-top: 20px;
+  height: 50px;
+  font-size: 15px;
+}

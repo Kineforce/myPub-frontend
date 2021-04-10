@@ -1,41 +1,24 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  background-color: white;
-  height: 100%;
-  width: 100%;
-  font-size: 30px;
-  font-family: monospace;
-  font-weight: 100;
-}
-
-article {
+#article-home {
   min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-header {
+#header-home {
   display: flex;
   flex-direction: column;
-  background-color: white;
   padding: 2rem 0 0 0;
 }
 
-header h2 {
-  color: purple;
+#header-home h2 {
+  color: crimson;
   font-family: "Courier New", Courier, monospace;
   font-weight: 100;
   text-align: center;
 }
 
-main {
+#main-home {
   display: flex;
   margin: auto;
   padding: 1rem;
@@ -45,49 +28,50 @@ main {
   flex-grow: 1;
 }
 
-header,
-main,
-footer {
+#header-home,
+#main-home,
+#footer-home {
   flex-shrink: 0;
 }
 
 nav {
   display: flex;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
   flex-direction: row;
 }
 
 nav span {
+  font-family: "Monospace";
+  font-size: 20px;
   flex-grow: 1;
-  font-size: 15px;
   padding: 10px;
   cursor: pointer;
-  color: black;
+  color: white;
   text-align: center;
 }
 
 nav span:hover {
-  color: green;
+  color: crimson;
+  background-color: rgba(0, 0, 0, 0.534);
 }
 
-.content {
+#content-home {
   position: relative;
   flex-grow: 1;
   width: 100%;
   height: 100%;
-  border: 1px solid purple;
-  background-color: white;
+  border: 1px solid crimson;
+  background-color: rgba(0, 0, 0, 0.534);
 }
 
-footer {
-  color: black;
+#footer-home {
+  color: white;
   bottom: 0;
   text-align: center;
 }
 
-footer h1 {
+#footer-home h1 {
   padding: 1rem;
+  font-family: "Monospace";
   font-size: 15px;
   font-weight: 100;
   opacity: 0.7;
