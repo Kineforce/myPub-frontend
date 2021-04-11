@@ -1,32 +1,21 @@
 import React, { useState } from "react";
 import "./Login.css";
 
+function initialState() {
+  return { user: "", password: "" };
+}
+
 const InterfaceLogin = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [values, setValues] = useState(initialState);
 
-  const handleUsername = (event) => {
-    setUsername(event.target.value);
-    console.log(username);
-  };
+  function onChange(event) {
+    const { name, value } = event.target;
 
-  const handlePassword = (event) => {
-    setPassword(event.target.value);
-    console.log(password);
-  };
-
-  const handleValidation = () => {
-    if (
-      username !== "" &&
-      username.length <= 10 &&
-      password !== "" &&
-      password >= 10
-    ) {
-      console.log("Send JSON to API to validate user");
-    } else {
-      console.log("Wrong input!");
-    }
-  };
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  }
 
   return (
     <article id="article-login">
@@ -37,25 +26,22 @@ const InterfaceLogin = () => {
             <input
               type="text"
               className="form-control"
-              value={username}
-              onChange={handleUsername}
+              name="user"
+              value={values.user}
+              onChange={onChange}
               placeholder="username"
               required
             />
             <input
               type="password"
               className="form-control"
-              value={password}
-              onChange={handlePassword}
+              name="password"
+              value={values.password}
+              onChange={onChange}
               placeholder="password"
               required
             />
-            <input
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleValidation}
-              value="Login"
-            />
+            <input type="submit" className="btn btn-primary" value="Login" />
             <span id="feedback_msg"></span>
           </form>
         </div>
