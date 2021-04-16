@@ -1,7 +1,6 @@
-import React from "react";
 import "./Dashboard.css";
 
-const Dashboard = ({ logout, token }) => {
+const Dashboard = () => {
   return (
     <article id="article-home">
       <header id="header-home">
@@ -9,9 +8,10 @@ const Dashboard = ({ logout, token }) => {
         <nav>
           <span>Buscar cliente</span>
           <span>Cadastrar cliente</span>
+          <span>Excluir cliente</span>
           <span>Listar total de dívidas</span>
           <span>Listar total de ganhos</span>
-          <span onClick={logout}>{token}</span>
+          <span>Logout</span>
         </nav>
       </header>
       <main id="main-home">

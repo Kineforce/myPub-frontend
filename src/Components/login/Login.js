@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import "./Login.css";
-import apiClient from "../../services/api";
+import { useContext, useState } from "react";
+import { Context } from "../../Context/AuthContext";
 
-const Login = ({ manageLogin }) => {
+import "./Login.css";
+
+const Login = () => {
+  const { handleLogin } = useContext(Context);
+
   const [error, setError] = useState({
     message: "",
   });
@@ -12,35 +15,7 @@ const Login = ({ manageLogin }) => {
     password: "",
   });
 
-  async function authUser(credentials) {
-    apiClient.get("/sanctum/csrf-cookie").then((response) => {
-      apiClient
-        .post("/api/login", {
-          username: credentials.username,
-          password: credentials.password,
-          password_confirmation: credentials.password,
-        })
-        .then((response) => {
-          if (response.data.status === "201") {
-            console.log("Authenticated! Set token now!");
-            console.log("Authenticated! Redirect to dashboard!");
-            manageLogin(response.data.token);
-          }
-          if (response.data.status === "401") {
-            setError({
-              message: response.data.message,
-            });
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          }
-        });
-    });
-  }
+  //async function authUser(credentials) {}
 
   function onChange(event) {
     const { name, value } = event.target;
@@ -68,7 +43,7 @@ const Login = ({ manageLogin }) => {
       return;
     }
 
-    authUser(credentials);
+    handleLogin({ credentials, setError });
   };
 
   return (
