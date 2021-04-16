@@ -1,7 +1,7 @@
 import React from "react";
 import "./Dashboard.css";
 
-const Home = () => {
+const Dashboard = ({ logout, token }) => {
   return (
     <article id="article-home">
       <header id="header-home">
@@ -11,7 +11,7 @@ const Home = () => {
           <span>Cadastrar cliente</span>
           <span>Listar total de dívidas</span>
           <span>Listar total de ganhos</span>
-          <span>Logout</span>
+          <span onClick={logout}>{token}</span>
         </nav>
       </header>
       <main id="main-home">
@@ -24,4 +24,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

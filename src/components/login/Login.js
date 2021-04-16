@@ -1,12 +1,46 @@
 import React, { useState } from "react";
-
 import "./Login.css";
+import apiClient from "../../services/api";
 
-const Login = () => {
-  const [credentials, setCredentials] = useState({ user: "", password: "" });
+const Login = ({ manageLogin }) => {
   const [error, setError] = useState({
     message: "",
   });
+
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+
+  async function authUser(credentials) {
+    apiClient.get("/sanctum/csrf-cookie").then((response) => {
+      apiClient
+        .post("/api/login", {
+          username: credentials.username,
+          password: credentials.password,
+          password_confirmation: credentials.password,
+        })
+        .then((response) => {
+          if (response.data.status === "201") {
+            console.log("Authenticated! Set token now!");
+            console.log("Authenticated! Redirect to dashboard!");
+            manageLogin(response.data.token);
+          }
+          if (response.data.status === "401") {
+            setError({
+              message: response.data.message,
+            });
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          }
+        });
+    });
+  }
 
   function onChange(event) {
     const { name, value } = event.target;
@@ -19,28 +53,22 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let isValidated = false;
 
-    if (credentials.user === "") {
+    if (credentials.username === "") {
       setError({
         message: "Please, insert a valid username!",
       });
-    } else if (credentials.password === "") {
+      return;
+    }
+
+    if (credentials.password === "") {
       setError({
         message: "Please, insert a valid password!",
       });
-    } else {
-      setError({
-        message: "",
-      });
-      isValidated = true;
+      return;
     }
 
-    if (isValidated === true) {
-      console.log("Send fetch to API!");
-    } else {
-      console.log("Return error to user!");
-    }
+    authUser(credentials);
   };
 
   return (
@@ -52,8 +80,8 @@ const Login = () => {
             <input
               type="text"
               className="form-control"
-              name="user"
-              value={credentials.user}
+              name="username"
+              value={credentials.username}
               onChange={onChange}
               placeholder="username"
             />
