@@ -5,18 +5,26 @@ import { Context } from "./Context/AuthContext";
 import Login from "./Components/login/Login";
 import Dashboard from "./Components/dashboard/Dashboard";
 
-export default function Routes() {
-  const { authenticated } = useContext(Context);
+function CustomRoute({ isPrivate, ...rest }) {
+  const { loading, authenticated } = useContext(Context);
 
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (isPrivate && !authenticated) {
+    return <Redirect to="/login" />;
+  }
+
+  return <Route {...rest} />;
+}
+
+export default function Routes() {
   return (
     <Switch>
-      {authenticated === false && (
-        <Route exact path="/login" component={Login} />
-      )}
-      {authenticated === true && (
-        <Route exact path="/Dashboard" component={Dashboard} />
-      )}
-      <Redirect to="/login" />
+      <CustomRoute exact path="/login" component={Login} />
+      <CustomRoute isPrivate exact path="/Dashboard" component={Dashboard} />
+      <Redirect to="/dashboard" />
     </Switch>
   );
 }

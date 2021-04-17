@@ -15,8 +15,6 @@ const Login = () => {
     password: "",
   });
 
-  //async function authUser(credentials) {}
-
   function onChange(event) {
     const { name, value } = event.target;
 
@@ -31,14 +29,14 @@ const Login = () => {
 
     if (credentials.username === "") {
       setError({
-        message: "Please, insert a valid username!",
+        message: "Por favor, insira um usuário válido!",
       });
       return;
     }
 
     if (credentials.password === "") {
       setError({
-        message: "Please, insert a valid password!",
+        message: "Por favor, insira uma senha válida!",
       });
       return;
     }
