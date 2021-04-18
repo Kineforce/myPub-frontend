@@ -5,16 +5,18 @@ import "./Dashboard.css";
 
 // Sub components
 
-import SearchClient from "./SearchClient";
-import RegisterClient from "./RegisterClient";
-import ListDebts from "./ListDebts";
-import ListProfits from "./ListProfits";
-import DeleteClient from "./DeleteClient";
+import SearchClient from "./SearchClient/SearchClient";
+import RegisterClient from "./RegisterClient/RegisterClient";
+import ListDebts from "./ListDebts/ListDebts";
+import ListProfits from "./ListProfit/ListProfits";
+import DeleteClient from "./DeleteClient/DeleteClient";
 
 const Dashboard = () => {
   const { handleLogout } = useContext(Context);
   const [component, setComponent] = useState({
-    curr_component: "Welcome to myPub - Web Manager",
+    curr_component: (
+      <div className="generic_text">Welcome to myPub - Web Manager</div>
+    ),
   });
 
   const searchClient = () => {

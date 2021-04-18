@@ -1,0 +1,38 @@
+.inner_box {
+  position: absolute;
+  display: flex;
+  width: 98%;
+  height: 98%;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.up-side {
+  border-bottom: 1px solid grey;
+  flex: 10%;
+}
+
+.down-side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  font-size: 30px;
+  flex: 90%;
+}
+
+.client_row {
+  margin-top: 10px;
+}
+
+.input-row {
+  padding: 20px;
+}
+
+.input-row input {
+  border-radius: 10px;
+  height: 3rem;
+  width: 20rem;
+  font-size: 30px;
+  text-indent: 5px;
+}
