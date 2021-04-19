@@ -3,7 +3,7 @@ import api from "../../../api";
 
 import "./RegisterClient.css";
 
-const setNewClient = (clientData) => {
+const setNewClient = ({ clientData, setFeedbackMessage }) => {
   const data = api.post(`/api/clients/`, {
     name: clientData.name,
     cpf: clientData.cpf,
@@ -11,7 +11,9 @@ const setNewClient = (clientData) => {
     phone_number: clientData.phone_number,
     adress: clientData.adress,
   });
-  data.then((response) => {});
+  data.then(() => {
+    setFeedbackMessage("Cliente cadastrado com sucesso!");
+  });
 
   console.log("Posted data to backend!");
 };
@@ -42,24 +44,27 @@ const RegisterClient = () => {
     for (let i = 0; i < event.target.length; i++) {
       if (
         event.target[i].value === "" &&
-        event.target[i].name !== "submit_btn"
+        event.target[i].name !== "submit_btn" &&
+        event.target[i].name !== "cpf" &&
+        event.target[i].name !== "adress" &&
+        event.target[i].name !== "gender"
       ) {
         setFeedbackMessage(
-          `Fornecer valor para o campo ${event.target[i].name}`
+          `Por favor, fornecer o valor para o campo indicado!`
         );
+        event.target[i].style.borderColor = "red";
         return;
       }
+
+      event.target[i].style.borderColor = "blue";
     }
 
-    // event.target.map((value) => {
-    //   return console.log(value.name);
-    // });
-    //setNewClient(clientData);
+    setNewClient({ clientData, setFeedbackMessage });
   }
 
   return (
     <div className="inner_box_rc">
-      {feedbackMessage && <span id="feedback_msg">{feedbackMessage}</span>}
+      {feedbackMessage && <span id="feedback_message">{feedbackMessage}</span>}
 
       <form id="register-client-form" onSubmit={handleSubmit}>
         <input
@@ -102,7 +107,7 @@ const RegisterClient = () => {
           onChange={onChange}
           placeholder="Insira o endereço"
         />
-        <input type="submit" name="submit_btn" placeholder="Value" />
+        <input type="submit" name="submit_btn" value="Enviar" />
       </form>
     </div>
   );

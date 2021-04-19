@@ -20,4 +20,8 @@
 
 #feedback_message {
   text-align: center;
+  font-size: 30px;
+  padding: 10px;
+  border: 1px solid rgba(255, 0, 0, 0.274);
+  margin: 0;
 }
