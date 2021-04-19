@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Context } from "../../Context/AuthContext";
 
 import "./Register.css";
+import history from "../../history";
 
 const Register = () => {
   const { handleRegister } = useContext(Context);
@@ -60,6 +61,10 @@ const Register = () => {
     handleRegister({ credentials, setError });
   };
 
+  function handleRedirect() {
+    return history.push("/login");
+  }
+
   return (
     <article id="article-register">
       <header id="header-register">myPub</header>
@@ -109,7 +114,11 @@ const Register = () => {
               value="Registrar"
             />
             <span id="already_signin">
-              Clique <span id="redir_login">aqui</span> para ir a tela de login
+              Clique{" "}
+              <span id="redir_login" onClick={handleRedirect}>
+                aqui
+              </span>{" "}
+              para ir a tela de login
             </span>
           </form>
         </div>

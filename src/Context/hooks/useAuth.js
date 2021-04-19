@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { Redirect } from "react-router";
 
 import api from "../../api";
+import Login from "../../Components/login/Login";
 import history from "../../history";
 
 export default function useAuth() {
@@ -67,7 +69,7 @@ export default function useAuth() {
         })
         .then((response) => {
           if (response.status === 204 || response.status === 201) {
-            history.push("/login");
+            history.push("/login?status=1");
             return;
           }
         })

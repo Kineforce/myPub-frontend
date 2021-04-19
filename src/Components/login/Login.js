@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Context } from "../../Context/AuthContext";
 
 import history from "../../history";
@@ -10,12 +10,27 @@ const Login = () => {
 
   const [error, setError] = useState({
     message: "",
+    pStyle: {
+      color: "red",
+    },
   });
 
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+
+  useEffect(() => {
+    const query = window.location.href;
+    if (query[query.length - 1] === "1") {
+      setError({
+        message: "Usuário registrado com sucesso!",
+        pStyle: {
+          "border-color": "green",
+        },
+      });
+    }
+  }, [setError]);
 
   function onChange(event) {
     const { name, value } = event.target;
@@ -79,7 +94,11 @@ const Login = () => {
                 Clique aqui!
               </span>
             </span>
-            {error.message && <span id="feedback_msg">{error.message}</span>}
+            {error.message && (
+              <span id="feedback_msg" style={error.pStyle}>
+                {error.message}
+              </span>
+            )}
           </form>
         </div>
       </main>
