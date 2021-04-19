@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { Context } from "../../Context/AuthContext";
 
+import history from "../../history";
+
 import "./Login.css";
 
 const Login = () => {
@@ -22,6 +24,10 @@ const Login = () => {
       ...credentials,
       [name]: value,
     });
+  }
+
+  function redirRegister() {
+    history.push("/register");
   }
 
   const handleSubmit = (event) => {
@@ -67,7 +73,13 @@ const Login = () => {
               placeholder="password"
             />
             <input type="submit" className="btn btn-primary" value="Login" />
-            <span id="feedback_msg">{error.message}</span>
+            <span id="sign_in">
+              Ainda não tem uma conta?
+              <span id="link_sign_in" onClick={redirRegister}>
+                Clique aqui!
+              </span>
+            </span>
+            {error.message && <span id="feedback_msg">{error.message}</span>}
           </form>
         </div>
       </main>

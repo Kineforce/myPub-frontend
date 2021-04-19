@@ -8,7 +8,7 @@ export default function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     if (token) {
       api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
@@ -24,13 +24,12 @@ export default function useAuth() {
         .post("/api/login", {
           username: credentials.username,
           password: credentials.password,
-          password_confirmation: credentials.password,
         })
         .then((response) => {
           if (response.data.status === "201") {
             setAuthenticated(true);
             const token = response.data.token;
-            localStorage.setItem("token", JSON.stringify(token));
+            sessionStorage.setItem("token", JSON.stringify(token));
             api.defaults.headers.Authorization = `Bearer ${token}`;
             history.push("/dashboard");
           }
@@ -52,10 +51,37 @@ export default function useAuth() {
 
   function handleLogout() {
     setAuthenticated(false);
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     api.defaults.headers.Authorization = undefined;
     history.push("/login");
   }
 
-  return { authenticated, loading, handleLogin, handleLogout };
+  function handleRegister({ credentials, setError }) {
+    api.get("/sanctum/csrf-cookie").then((response) => {
+      api
+        .post("/api/register", {
+          email: credentials.email,
+          username: credentials.username,
+          password: credentials.password,
+          password_confirmation: credentials.password,
+        })
+        .then((response) => {
+          if (response.status === 204 || response.status === 201) {
+            history.push("/login");
+            return;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error) {
+            setError({
+              message: "Este e-mail ou usuário já foi registrado!",
+            });
+            return;
+          }
+        });
+    });
+  }
+
+  return { authenticated, loading, handleLogin, handleLogout, handleRegister };
 }

@@ -1,0 +1,23 @@
+.inner_box_rc {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#register-client-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#register-client-form > * {
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+#feedback_message {
+  text-align: center;
+}

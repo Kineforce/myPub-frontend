@@ -1,34 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../api";
 
 import "./SearchClient.css";
 
-const fetchUsers = ({ curr_search, setClients }) => {
+const fetchUsers = ({ curr_search, setClients, setCounterResults }) => {
   if (curr_search.trim() === "") {
     setClients([]);
+    setCounterResults(0);
     return;
   }
-  const data = api.get("/api/clients/search/" + curr_search);
+  const data = api.get(`/api/clients/search/${curr_search}`);
   data.then((response) => {
     setClients(response.data);
+    setCounterResults(response.data.length);
   });
 };
 
 const SearchClient = () => {
-  const [pagination, setPagination] = useState(11);
   const [searchName, setSearchName] = useState("");
   const [clients, setClients] = useState([]);
+  const [counterResults, setCounterResults] = useState(0);
 
   function handleValue(event) {
     let curr_search = event.target.value;
+    curr_search = curr_search.replace(/[^a-zA-Z. ]/gi, "");
 
     setSearchName(curr_search);
-    fetchUsers({ curr_search, setClients });
+    fetchUsers({ curr_search, setClients, setCounterResults });
   }
 
-  const nextPageButton = () => {
-    console.log("Show results for next page!");
-  };
+  useEffect(() => {
+    const data = api.get(`/api/clients/all`);
+    data.then((response) => {
+      setClients(response.data);
+      setCounterResults(response.data.length);
+    });
+  }, []);
 
   return (
     <div className="inner_box">
@@ -40,22 +47,18 @@ const SearchClient = () => {
             onChange={handleValue}
             placeholder="Buscar por nome..."
           ></input>
+          <span id="counterResults">
+            Quantidade de resultados: <span>{counterResults}</span>
+          </span>
         </div>
       </div>
       <div className="down-side">
         {clients.map((client, index) => {
-          if (index < pagination) {
-            return (
-              <div key={client.id} className="client-row">
-                {client.name}
-              </div>
-            );
-          } else {
-            <button
-              className="buttonNextPage"
-              onClick={nextPageButton}
-            ></button>;
-          }
+          return (
+            <div key={index} className="client-row">
+              {client.name}
+            </div>
+          );
         })}
       </div>
     </div>

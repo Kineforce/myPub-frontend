@@ -16,14 +16,14 @@ body {
   width: 100%;
 }
 
-#article-login {
+#article-register {
   min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-#header-login {
+#header-register {
   text-align: center;
   font-size: 50px;
   font-weight: 700;
@@ -31,30 +31,30 @@ body {
   color: white;
 }
 
-#main-login {
+#main-register {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-grow: 1;
 }
 
-#main-login,
-#header-login,
-#footer-login {
+#main-register,
+#header-register,
+#footer-register {
   flex-shrink: 0;
 }
 
-#footer-login {
+#footer-register {
   color: white;
   text-align: center;
 }
 
-#footer-login h1 {
+#footer-register h1 {
   font-size: 15px;
   font-weight: 100;
 }
 
-#interface-login__box-login {
+#interface-register__box-register {
   background-color: rgb(255, 255, 255);
   padding: 2rem;
   min-width: 400px;
@@ -64,20 +64,11 @@ body {
 }
 
 #feedback_msg {
-  text-align: center;
-}
-
-#sign_in {
-  text-align: center;
-}
-
-#link_sign_in {
-  color: blue;
-  margin-left: 5px;
-}
-
-#link_sign_in:hover {
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 0, 0, 0.274);
+  margin: 0;
 }
 
 .form-group {
@@ -95,4 +86,13 @@ body {
   margin-top: 20px;
   height: 50px;
   font-size: 15px;
+}
+
+#already_signin {
+  text-align: center;
+}
+
+#redir_login {
+  color: blue;
+  cursor: pointer;
 }
