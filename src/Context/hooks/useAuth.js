@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import { Redirect } from "react-router";
 
 import api from "../../api";
-import Login from "../../Components/login/Login";
 import history from "../../history";
 
 export default function useAuth() {

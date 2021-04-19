@@ -77,7 +77,7 @@ const Login = () => {
               name="username"
               value={credentials.username}
               onChange={onChange}
-              placeholder="username"
+              placeholder="Usuário"
             />
             <input
               type="password"
@@ -85,7 +85,7 @@ const Login = () => {
               name="password"
               value={credentials.password}
               onChange={onChange}
-              placeholder="password"
+              placeholder="Senha"
             />
             <input type="submit" className="btn btn-primary" value="Login" />
             <span id="sign_in">
