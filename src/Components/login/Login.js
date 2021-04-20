@@ -26,7 +26,7 @@ const Login = () => {
       setError({
         message: "Usuário registrado com sucesso!",
         pStyle: {
-          "border-color": "green",
+          borderColor: "green",
         },
       });
     }

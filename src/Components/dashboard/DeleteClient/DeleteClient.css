@@ -1,4 +1,4 @@
-.inner_box {
+.inner_box_delete {
   position: absolute;
   display: flex;
   width: 98%;
@@ -7,51 +7,74 @@
   box-sizing: border-box;
 }
 
-.up-side {
+.up-side_delete {
   border-bottom: 1px solid grey;
   flex: 10%;
 }
 
-.down-side {
+.down-side_delete {
   position: relative;
   display: flex;
   flex-direction: column;
   padding: 30px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   font-size: 30px;
   flex: 90%;
 }
 
-.client-row {
+.client-row_delete {
   padding: 2%;
   border: 1px solid grey;
 }
 
-.client-row:hover {
-  background-color: rgba(128, 128, 128, 0.486);
+.client-row_delete:hover {
+  background-color: rgba(165, 98, 98, 0.486);
+  font-weight: 600;
   cursor: pointer;
 }
 
-.input-row {
+.input-row_delete {
   display: flex;
   padding: 20px;
 }
 
-#counterResults {
+#counterResults_delete {
   font-size: 30px;
   margin-left: auto;
 }
 
-#counterResults span {
-  color: blue;
+#counterResults_delete span {
+  color: red;
 }
 
-.input-row input {
+.input-row_delete input {
   border-radius: 10px;
   height: 3rem;
   width: 20rem;
   font-size: 30px;
   text-indent: 5px;
+}
+
+.overlay_delete {
+  background-color: transparent;
+}
+
+.animation_remove {
+  animation-duration: 1s;
+  animation-name: slideout;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideout {
+  from {
+    transition: opacity 1s;
+  }
+
+  to {
+    margin-left: 120%;
+    width: 300%;
+  }
 }
 
 .loader {

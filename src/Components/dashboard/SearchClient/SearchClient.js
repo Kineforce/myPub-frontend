@@ -16,6 +16,14 @@ const fetchUsers = ({ curr_search, setClients, setCounterResults }) => {
   });
 };
 
+const fetchAll = ({ setClients, setCounterResults }) => {
+  const data = api.get(`/api/clients/all`);
+  data.then((response) => {
+    setClients(response.data);
+    setCounterResults(response.data.length);
+  });
+};
+
 const SearchClient = () => {
   const [searchName, setSearchName] = useState("");
   const [clients, setClients] = useState([]);
@@ -29,39 +37,70 @@ const SearchClient = () => {
     fetchUsers({ curr_search, setClients, setCounterResults });
   }
 
+  function fetchAllUsers() {
+    fetchAll({ setClients, setCounterResults });
+  }
+
   useEffect(() => {
+    document
+      .getElementsByClassName("inner_box")[0]
+      .setAttribute("hidden", "true");
+
     const data = api.get(`/api/clients/all`);
-    data.then((response) => {
-      setClients(response.data);
-      setCounterResults(response.data.length);
-    });
+    data
+      .then((response) => {
+        setClients(response.data);
+        setCounterResults(response.data.length);
+      })
+      .then(() => {
+        document
+          .getElementsByClassName("loader")[0]
+          .setAttribute("hidden", "true");
+        document
+          .getElementsByClassName("inner_box")[0]
+          .removeAttribute("hidden");
+      });
   }, []);
 
   return (
-    <div className="inner_box">
-      <div className="up-side">
-        <div className="input-row">
-          <input
-            type="text"
-            value={searchName}
-            onChange={handleValue}
-            placeholder="Buscar por nome..."
-          ></input>
-          <span id="counterResults">
-            Quantidade de resultados: <span>{counterResults}</span>
-          </span>
+    <>
+      <div className="wrapper">
+        <div className="loader"></div>
+        <div className="inner_box" hidden>
+          <div className="up-side">
+            <div className="input-row">
+              <input
+                type="text"
+                value={searchName}
+                onChange={handleValue}
+                placeholder="Buscar por nome..."
+              ></input>
+              <button
+                style={{ marginLeft: "10px" }}
+                type="submit"
+                id="buttonAll"
+                onClick={fetchAllUsers}
+              >
+                {" "}
+                Buscar tudo
+              </button>
+              <span id="counterResults">
+                Quantidade de resultados: <span>{counterResults}</span>
+              </span>
+            </div>
+          </div>
+          <div className="down-side">
+            {clients.map((client, index) => {
+              return (
+                <div key={index} className="client-row">
+                  {client.name}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-      <div className="down-side">
-        {clients.map((client, index) => {
-          return (
-            <div key={index} className="client-row">
-              {client.name}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </>
   );
 };
 

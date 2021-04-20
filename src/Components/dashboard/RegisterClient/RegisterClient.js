@@ -1,21 +1,17 @@
 import { useState } from "react";
 import api from "../../../api";
+import InputMask from "react-input-mask";
 
 import "./RegisterClient.css";
 
-const setNewClient = ({ clientData, setFeedbackMessage }) => {
-  const data = api.post(`/api/clients/`, {
+const setNewClient = ({ clientData }) => {
+  api.post(`/api/clients/`, {
     name: clientData.name,
     cpf: clientData.cpf,
     gender: clientData.gender,
     phone_number: clientData.phone_number,
     adress: clientData.adress,
   });
-  data.then(() => {
-    setFeedbackMessage("Cliente cadastrado com sucesso!");
-  });
-
-  console.log("Posted data to backend!");
 };
 
 const RegisterClient = () => {
@@ -29,6 +25,12 @@ const RegisterClient = () => {
 
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
+  const colors = {
+    red: "red",
+    blue: "blue",
+    green: "green",
+  };
+
   function onChange(event) {
     const { name, value } = event.target;
 
@@ -37,6 +39,23 @@ const RegisterClient = () => {
       [name]: value,
     });
   }
+
+  const cleanForm = (event) => {
+    event.preventDefault();
+    setClientData({
+      name: "",
+      cpf: "",
+      gender: "",
+      phone_number: "",
+      adress: "",
+    });
+
+    setFeedbackMessage("");
+
+    for (let i = 0; i < event.target.form.length; i++) {
+      event.target.form[i].style.borderColor = "";
+    }
+  };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -52,12 +71,21 @@ const RegisterClient = () => {
         setFeedbackMessage(
           `Por favor, fornecer o valor para o campo indicado!`
         );
-        event.target[i].style.borderColor = "red";
+        event.target[i].style.borderColor = colors.red;
         return;
       }
 
-      event.target[i].style.borderColor = "blue";
+      if (event.target[i].name !== "submit_btn") {
+        event.target[i].style.borderColor = colors.blue;
+      }
     }
+
+    setFeedbackMessage("Cliente cadastrado com sucesso!");
+
+    setTimeout(() => {
+      document.getElementById("feedback_message").style.borderColor =
+        colors.green;
+    }, 100);
 
     setNewClient({ clientData, setFeedbackMessage });
   }
@@ -75,9 +103,10 @@ const RegisterClient = () => {
           onChange={onChange}
           placeholder="Insira o nome"
         />
-        <input
+        <InputMask
           type="text"
           className="form-control"
+          mask="999.999.999-99"
           name="cpf"
           value={clientData.cpf}
           onChange={onChange}
@@ -91,9 +120,10 @@ const RegisterClient = () => {
           onChange={onChange}
           placeholder="Insira o gênero"
         />
-        <input
+        <InputMask
           type="text"
           className="form-control"
+          mask="(99) 9-9999-9999"
           name="phone_number"
           value={clientData.phone_number}
           onChange={onChange}
@@ -108,6 +138,12 @@ const RegisterClient = () => {
           placeholder="Insira o endereço"
         />
         <input type="submit" name="submit_btn" value="Enviar" />
+        <input
+          type="submit"
+          name="submit_btn"
+          onClick={cleanForm}
+          value="Limpar"
+        />
       </form>
     </div>
   );
