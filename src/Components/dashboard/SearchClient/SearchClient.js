@@ -1,20 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "../../../api";
+import debounce from "lodash.debounce";
 
 import "./SearchClient.css";
-
-const fetchUsers = ({ curr_search, setClients, setCounterResults }) => {
-  if (curr_search.trim() === "") {
-    setClients([]);
-    setCounterResults(0);
-    return;
-  }
-  const data = api.get(`/api/clients/search/${curr_search}`);
-  data.then((response) => {
-    setClients(response.data);
-    setCounterResults(response.data.length);
-  });
-};
 
 const fetchAll = ({ setClients, setCounterResults }) => {
   const data = api.get(`/api/clients/all`);
@@ -29,12 +17,34 @@ const SearchClient = () => {
   const [clients, setClients] = useState([]);
   const [counterResults, setCounterResults] = useState(0);
 
+  // Executa a ultima chamada da função
+  const debouncedSave = useRef(
+    debounce((curr_search, arr_clients) => {
+      var new_arr = [];
+      var search_counter = 0;
+
+      arr_clients.forEach((arr_client) => {
+        if (!arr_client.name.includes(curr_search)) {
+          arr_client.show_search = 0;
+          new_arr.push(arr_client);
+        } else {
+          arr_client.show_search = 1;
+          search_counter = search_counter + 1;
+          new_arr.push(arr_client);
+        }
+      });
+
+      setCounterResults(search_counter);
+      setClients(new_arr);
+    }, 500)
+  ).current;
+
   function handleValue(event) {
     let curr_search = event.target.value;
     curr_search = curr_search.replace(/[^a-zA-Z. ]/gi, "");
 
     setSearchName(curr_search);
-    fetchUsers({ curr_search, setClients, setCounterResults });
+    debouncedSave(curr_search, clients);
   }
 
   function fetchAllUsers() {
@@ -76,7 +86,7 @@ const SearchClient = () => {
                 placeholder="Buscar por nome..."
               ></input>
               <button
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", padding: "12px" }}
                 type="submit"
                 id="buttonAll"
                 onClick={fetchAllUsers}
@@ -91,11 +101,14 @@ const SearchClient = () => {
           </div>
           <div className="down-side">
             {clients.map((client, index) => {
-              return (
-                <div key={index} className="client-row">
-                  {client.name}
-                </div>
-              );
+              if (client.show_search === 1) {
+                return (
+                  <div key={index} className="client-row">
+                    {client.name}
+                  </div>
+                );
+              }
+              return null;
             })}
           </div>
         </div>
