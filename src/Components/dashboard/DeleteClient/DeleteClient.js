@@ -17,8 +17,6 @@ const removeClient = ({
   const client_id = event.target.attributes[0].value;
   let new_arr = [];
 
-  console.log("Should appear once");
-
   event.target.classList.add("animation_remove");
 
   setTimeout(() => {
@@ -33,9 +31,7 @@ const removeClient = ({
     setClients(new_arr);
   }, 500);
 
-  api.delete(`/api/clients/${client_id}`).then((response) => {
-    console.log("Successfully deleted!");
-  });
+  api.delete(`/api/clients/${client_id}`).then((response) => {});
 };
 
 const DeleteClient = () => {
@@ -53,13 +49,41 @@ const DeleteClient = () => {
   });
   const [pageIndex, setPageIndex] = useState(1);
   const [start, setStart] = useState(0);
+  const [counterResults, setCounterResults] = useState(0);
   const resultPerPage = 12;
-  let counter = 0;
+  let counterResultsPerPage = 0;
+
+  // Funções para avançar, retroceder, ir para última e primeira página
+  function goFirst() {
+    setPageIndex(1);
+    setStart(0);
+    setDisabled({ left: true });
+  }
+
+  function goLast() {
+    let clients_len = tempClients.length;
+    let iterator = 0;
+
+    while (clients_len > resultPerPage) {
+      iterator = iterator + 1;
+      clients_len = clients_len - resultPerPage;
+    }
+
+    let lastItemLastPage = tempClients.length - clients_len;
+
+    setDisabled({
+      right: true,
+      left: false,
+    });
+
+    setPageIndex(Math.ceil(counterResults / 12));
+    setStart(lastItemLastPage);
+  }
 
   function goFoward(e) {
     setTempClients(clients);
 
-    if (counter === resultPerPage) {
+    if (counterResultsPerPage === resultPerPage) {
       setPageIndex(pageIndex + 1);
       setStart(start + resultPerPage);
       setDisabled({ left: false });
@@ -91,7 +115,7 @@ const DeleteClient = () => {
       setDisabled({ left: true });
     }
 
-    if (pageIndex === 1) {
+    if (pageIndex === 1 || start === 12) {
       setDisabled({ left: true });
     }
   }
@@ -109,7 +133,22 @@ const DeleteClient = () => {
         }
       });
 
-      setPageIndex(0);
+      if (search_counter <= 12) {
+        setDisabled({
+          left: true,
+          right: true,
+        });
+      } else {
+        setDisabled({
+          left: false,
+          right: false,
+        });
+      }
+
+      setStart(0);
+      counterResultsPerPage = 0;
+      setPageIndex(1);
+      setCounterResults(search_counter);
       setTempClients(new_arr);
     }, 500)
   ).current;
@@ -140,9 +179,7 @@ const DeleteClient = () => {
         },
         {
           label: "Não",
-          onClick: () => {
-            console.log("Ação cancelada!");
-          },
+          onClick: () => {},
         },
       ],
       overlayClassName: "overlay_delete",
@@ -159,6 +196,14 @@ const DeleteClient = () => {
       .then((response) => {
         setClients(response.data);
         setTempClients(response.data);
+        setCounterResults(response.data.length);
+
+        if (response.data.length <= 12) {
+          setDisabled({
+            left: true,
+            right: true,
+          });
+        }
       })
       .then(() => {
         setLoadingDisable({
@@ -185,16 +230,16 @@ const DeleteClient = () => {
                 type="text"
                 value={searchName}
                 onChange={handleValue}
-                placeholder="Buscar por nome..."
+                placeholder="Buscar dinâmica por nome..."
               ></input>
             </div>
           </div>
           <div className="down-side_delete">
             {tempClients.map((client, index) => {
-              if (index >= start && counter < resultPerPage) {
+              if (index >= start && counterResultsPerPage < resultPerPage) {
                 return (
                   <div
-                    {...(counter = counter + 1)}
+                    {...(counterResultsPerPage = counterResultsPerPage + 1)}
                     key={index}
                     client_id={client.id}
                     className="client-row_delete"
@@ -206,20 +251,45 @@ const DeleteClient = () => {
               }
               return null;
             })}
-            <span id="control_page_delete">
-              <button
-                className="fas fa-arrow-left"
-                style={{ color: disabled.color }}
-                onClick={goBack}
-                disabled={disabled.left}
-              ></button>
-              &nbsp;
-              <button
-                className="fas fa-arrow-right"
-                style={{ color: disabled.color }}
-                onClick={goFoward}
-                disabled={disabled.right}
-              ></button>
+            <span id="control_page">
+              <div className="buttons">
+                <button
+                  className="fas fa-arrow-left"
+                  style={
+                    (disabled.left && { color: disabled.color }) || {
+                      color: "blue",
+                    }
+                  }
+                  onClick={goFirst}
+                  disabled={disabled.left}
+                ></button>
+                <button
+                  className="fas fa-arrow-left"
+                  style={{ color: disabled.color }}
+                  onClick={goBack}
+                  disabled={disabled.left}
+                ></button>
+                &nbsp;
+                <button
+                  className="fas fa-arrow-right"
+                  style={{ color: disabled.color }}
+                  onClick={goFoward}
+                  disabled={disabled.right}
+                ></button>
+                <button
+                  className="fas fa-arrow-right"
+                  style={
+                    (disabled.right && { color: disabled.color }) || {
+                      color: "blue",
+                    }
+                  }
+                  onClick={goLast}
+                  disabled={disabled.right}
+                ></button>
+              </div>
+              <span id="display_page">{`${pageIndex} de ${Math.ceil(
+                counterResults / 12
+              )}`}</span>
             </span>
           </div>
         </div>
