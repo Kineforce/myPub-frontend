@@ -14,35 +14,76 @@ const SearchClient = () => {
     right: false,
     color: "black",
   });
-  const [pageIndex, setPageIndex] = useState(0);
-  const resultPerPage = 14;
+  const [loadingDisable, setLoadingDisable] = useState({
+    loader: "none",
+    inner_box: "none",
+  });
+  const [pageIndex, setPageIndex] = useState(1);
+  const [tempClients, setTempClients] = useState([]);
+  const resultPerPage = 12;
 
   let counter = 0;
 
+  function goFirst() {
+    setPageIndex(1);
+    setStart(0);
+    setDisabled({ left: true });
+  }
+
+  function goLast() {
+    let clients_len = tempClients.length;
+    let iterator = 0;
+
+    while (clients_len > resultPerPage) {
+      iterator = iterator + 1;
+      clients_len = clients_len - resultPerPage;
+      console.log(iterator);
+      console.log(clients_len);
+    }
+
+    let lastItemLastPage = tempClients.length - clients_len;
+
+    setDisabled({
+      right: true,
+      left: false,
+    });
+    setPageIndex(Math.floor(iterator));
+    setStart(lastItemLastPage);
+  }
+
   function goFoward(e) {
-    if (counter === 14) {
+    if (counter === resultPerPage) {
       setPageIndex(pageIndex + 1);
-      setStart(start + 14);
+      setStart(start + resultPerPage);
       setDisabled({ left: false });
     } else {
       setDisabled({ right: true });
     }
 
-    if (start + resultPerPage + 14 > clients.length) {
+    let clients_len = tempClients.length;
+    let iterator = 0;
+
+    while (clients_len > resultPerPage) {
+      iterator = iterator + 1;
+      clients_len = clients_len - resultPerPage;
+    }
+
+    console.log(iterator);
+    console.log(pageIndex);
+    if (pageIndex === iterator) {
       setDisabled({ right: true });
     }
+
     console.log(`Start          --> ${start}`);
     console.log(`resultPerPage  --> ${resultPerPage}`);
-    console.log(`clients.length --> ${clients.length}`);
+    console.log(`clients.length --> ${tempClients.length}`);
     console.log(`pageIndex      --> ${pageIndex}`);
   }
-
-  function goLast() {}
 
   function goBack(e) {
     if (start !== 0) {
       setPageIndex(pageIndex - 1);
-      setStart(start - 14);
+      setStart(start - resultPerPage);
       setDisabled({ right: false });
     } else {
       setDisabled({ left: true });
@@ -51,10 +92,9 @@ const SearchClient = () => {
     if (pageIndex === 1) {
       setDisabled({ left: true });
     }
-
     console.log(`Start          --> ${start}`);
     console.log(`resultPerPage  --> ${resultPerPage}`);
-    console.log(`clients.length --> ${clients.length}`);
+    console.log(`clients.length --> ${tempClients.length}`);
     console.log(`pageIndex      --> ${pageIndex}`);
   }
 
@@ -65,20 +105,17 @@ const SearchClient = () => {
       var search_counter = 0;
 
       arr_clients.forEach((arr_client) => {
-        if (
-          !arr_client.name.toUpperCase().includes(curr_search.toUpperCase())
-        ) {
-          arr_client.show_search = 0;
+        if (arr_client.name.toUpperCase().includes(curr_search.toUpperCase())) {
           new_arr.push(arr_client);
-        } else {
-          arr_client.show_search = 1;
           search_counter = search_counter + 1;
-          new_arr.push(arr_client);
         }
       });
 
+      setStart(0);
+      counter = 0;
+      setPageIndex(0);
       setCounterResults(search_counter);
-      setClients(new_arr);
+      setTempClients(new_arr);
     }, 500)
   ).current;
 
@@ -91,31 +128,36 @@ const SearchClient = () => {
   }
 
   useEffect(() => {
-    document
-      .getElementsByClassName("inner_box")[0]
-      .setAttribute("hidden", "true");
+    setLoadingDisable({
+      inner_box: "hidden",
+    });
 
     const data = api.get(`/api/clients/all`);
     data
       .then((response) => {
         setClients(response.data);
+        setTempClients(response.data);
         setCounterResults(response.data.length);
       })
       .then(() => {
-        document
-          .getElementsByClassName("loader")[0]
-          .setAttribute("hidden", "true");
-        document
-          .getElementsByClassName("inner_box")[0]
-          .removeAttribute("hidden");
+        setLoadingDisable({
+          loader: "none",
+          inner_box: "",
+        });
       });
   }, []);
 
   return (
     <>
       <div className="wrapper">
-        <div className="loader"></div>
-        <div className="inner_box" hidden>
+        <div
+          className="loader_search"
+          style={{ display: loadingDisable.loader }}
+        ></div>
+        <div
+          className="inner_box"
+          style={{ display: loadingDisable.inner_box }}
+        >
           <div className="up-side">
             <div className="input-row">
               <input
@@ -131,47 +173,32 @@ const SearchClient = () => {
             </div>
           </div>
           <div className="down-side">
-            <table id="search_client_table">
-              <thead>
-                <tr>
-                  <th>Nome </th>
-                  <th>CPF</th>
-                  <th>Gênero</th>
-                  <th>Telefone</th>
-                  <th>Endereço</th>
-                </tr>
-              </thead>
-              {clients.map((client, index) => {
-                if (
-                  client.show_search === 1 &&
-                  index >= start &&
-                  counter < resultPerPage
-                ) {
-                  return (
-                    <>
-                      <tbody {...(counter = counter + 1)}>
-                        <tr
-                          style={{
-                            backgroundColor:
-                              counter % 2 === 0
-                                ? "rgba(75, 75, 75, 0.2)"
-                                : "rgba(0, 0, 0, 0.5)",
-                          }}
-                        >
-                          <td>{client.name}</td>
-                          <td>{client.cpf}</td>
-                          <td>{client.gender}</td>
-                          <td>{client.phone_number}</td>
-                          <td>{client.adress}</td>
-                        </tr>
-                      </tbody>
-                    </>
-                  );
-                }
-                return null;
-              })}
-            </table>
+            {tempClients.map((client, key) => {
+              if (key >= start && counter < resultPerPage) {
+                return (
+                  <div
+                    className="client-row_search"
+                    key={key}
+                    id={key}
+                    {...(counter = counter + 1)}
+                  >
+                    <div>{client.name}</div>
+                  </div>
+                );
+              }
+              return null;
+            })}
             <span id="control_page">
+              <button
+                className="fas fa-arrow-left"
+                style={
+                  (disabled.left && { color: disabled.color }) || {
+                    color: "blue",
+                  }
+                }
+                onClick={goFirst}
+                disabled={disabled.left}
+              ></button>
               <button
                 className="fas fa-arrow-left"
                 style={{ color: disabled.color }}
@@ -185,6 +212,17 @@ const SearchClient = () => {
                 onClick={goFoward}
                 disabled={disabled.right}
               ></button>
+              <button
+                className="fas fa-arrow-right"
+                style={
+                  (disabled.right && { color: disabled.color }) || {
+                    color: "blue",
+                  }
+                }
+                onClick={goLast}
+                disabled={disabled.right}
+              ></button>
+              <span id="display_page">{pageIndex}</span>
             </span>
           </div>
         </div>

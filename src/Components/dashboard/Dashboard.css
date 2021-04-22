@@ -86,5 +86,35 @@ nav span:hover {
 }
 
 .generic_text {
+  animation-name: generictxt;
+  animation-duration: 2s;
   font-size: 50px;
+}
+
+@keyframes generictxt {
+  from {
+    font-size: 25px;
+  }
+
+  to {
+    font-size: 50px;
+  }
+}
+
+#content-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+
+@media only screen and (max-width: 630px) {
+  #article-home {
+    background-color: blueviolet;
+    min-width: 630px;
+  }
+
+  #root > * {
+    min-width: 630px;
+  }
 }

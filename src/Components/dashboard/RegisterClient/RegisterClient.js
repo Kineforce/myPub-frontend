@@ -137,13 +137,15 @@ const RegisterClient = () => {
           onChange={onChange}
           placeholder="Insira o endereço"
         />
-        <input type="submit" name="submit_btn" value="Enviar" />
-        <input
-          type="submit"
-          name="submit_btn"
-          onClick={cleanForm}
-          value="Limpar"
-        />
+        <div id="submit_row">
+          <input type="submit" name="submit_btn" value="Enviar" />
+          <input
+            type="submit"
+            name="submit_btn"
+            onClick={cleanForm}
+            value="Limpar"
+          />
+        </div>
       </form>
     </div>
   );

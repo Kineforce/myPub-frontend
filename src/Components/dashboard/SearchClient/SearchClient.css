@@ -5,6 +5,7 @@
   height: 98%;
   flex-direction: column;
   box-sizing: border-box;
+  color: white;
 }
 
 .up-side {
@@ -18,18 +19,13 @@
   flex-direction: column;
   padding: 30px;
   overflow: auto;
-  font-size: 30px;
+  font-size: 15px;
   flex: 90%;
 }
 
 .client-row {
   padding: 2%;
   border: 1px solid grey;
-}
-
-.client-row:hover {
-  background-color: rgba(128, 128, 128, 0.486);
-  cursor: pointer;
 }
 
 .input-row {
@@ -43,7 +39,7 @@
 }
 
 #counterResults span {
-  color: blue;
+  color: #3498db;
 }
 
 .input-row input {
@@ -54,7 +50,7 @@
   text-indent: 5px;
 }
 
-.loader {
+.loader_search {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3498db; /* Blue */
   border-radius: 50%;
@@ -79,25 +75,22 @@
   width: 100%;
 }
 
-#search_client_table {
-  font-size: 15px;
-  border: 1px solid grey;
-  border-collapse: collapse;
-}
-
-#search_client_table th,
-td {
-  padding: 5px;
-  border: 1px solid grey;
-}
-
 #control_page {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-top: auto;
+  font-size: 30px;
 }
 
-#more_results {
-  width: 70px;
+.client-row_search {
+  padding: 6px;
+  border: 1px solid grey;
+}
+
+.client-row_search:hover {
+  background-color: rgba(36, 48, 218, 0.486);
+  font-weight: 600;
+  font-size: 50px;
+  cursor: pointer;
 }

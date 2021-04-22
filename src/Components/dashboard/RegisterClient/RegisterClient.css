@@ -1,14 +1,16 @@
 .inner_box_rc {
-  position: relative;
+  position: absolute;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
+  height: 100%;
 }
 
 #register-client-form {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 #register-client-form > * {
@@ -20,6 +22,21 @@
   text-align: center;
   font-size: 30px;
   padding: 10px;
-  border: 1px solid rgba(255, 0, 0, 0.274);
+  border: 1px solid rgba(255, 0, 0, 0.514);
+  color: white;
   margin: 0;
+}
+
+#submit_row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+#submit_row > * {
+  width: 200px;
+  margin-top: 10px;
 }
