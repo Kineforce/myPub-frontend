@@ -25,11 +25,11 @@ const RegisterClient = () => {
 
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
-  const colors = {
-    red: "red",
-    blue: "rgba(54, 50, 197, 0.9)",
-    green: "green",
-  };
+  const [colors, setColors] = useState({
+    red: "rgba(255, 0, 0, 0.411)",
+    blue: "rgba(9, 78, 228, 0.514)",
+    feedback_color: "#e4433d",
+  });
 
   function onChange(event) {
     const { name, value } = event.target;
@@ -72,20 +72,20 @@ const RegisterClient = () => {
         setFeedbackMessage(
           `Por favor, preencha corretamente os campos em vermelho`
         );
-        event.target[i].style.borderColor = colors.red;
+        setColors({
+          feedback_color: "#e4433d",
+        });
+        event.target[i].classList.add("placeholder_red");
         canSubmit = false;
-      } else {
-        event.target[i].style.borderColor = colors.blue;
       }
     }
 
     if (canSubmit === true) {
       setFeedbackMessage("Cliente cadastrado com sucesso!");
 
-      setTimeout(() => {
-        document.getElementById("feedback_message").style.borderColor =
-          colors.green;
-      }, 100);
+      setColors({
+        feedback_color: "#3de47d",
+      });
 
       setNewClient({ clientData, setFeedbackMessage });
     }
@@ -93,7 +93,17 @@ const RegisterClient = () => {
 
   return (
     <div className="inner_box_rc">
-      {feedbackMessage && <span id="feedback_message">{feedbackMessage}</span>}
+      {feedbackMessage && (
+        <span
+          id="feedback_message"
+          style={{
+            color: colors.feedback_color,
+            borderColor: colors.feedback_color,
+          }}
+        >
+          {feedbackMessage}
+        </span>
+      )}
 
       <form id="register-client-form" onSubmit={handleSubmit}>
         <input

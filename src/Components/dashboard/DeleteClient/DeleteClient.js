@@ -232,7 +232,7 @@ const DeleteClient = () => {
                 type="text"
                 value={searchName}
                 onChange={handleValue}
-                placeholder="Buscar dinâmica por nome..."
+                placeholder="Busca dinâmica por nomes..."
               ></input>
             </div>
           </div>
