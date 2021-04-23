@@ -27,7 +27,7 @@ const RegisterClient = () => {
 
   const colors = {
     red: "red",
-    blue: "blue",
+    blue: "rgba(54, 50, 197, 0.9)",
     green: "green",
   };
 
@@ -59,6 +59,7 @@ const RegisterClient = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
+    let canSubmit = true;
 
     for (let i = 0; i < event.target.length; i++) {
       if (
@@ -69,25 +70,25 @@ const RegisterClient = () => {
         event.target[i].name !== "gender"
       ) {
         setFeedbackMessage(
-          `Por favor, fornecer o valor para o campo indicado!`
+          `Por favor, preencha corretamente os campos em vermelho`
         );
         event.target[i].style.borderColor = colors.red;
-        return;
-      }
-
-      if (event.target[i].name !== "submit_btn") {
+        canSubmit = false;
+      } else {
         event.target[i].style.borderColor = colors.blue;
       }
     }
 
-    setFeedbackMessage("Cliente cadastrado com sucesso!");
+    if (canSubmit === true) {
+      setFeedbackMessage("Cliente cadastrado com sucesso!");
 
-    setTimeout(() => {
-      document.getElementById("feedback_message").style.borderColor =
-        colors.green;
-    }, 100);
+      setTimeout(() => {
+        document.getElementById("feedback_message").style.borderColor =
+          colors.green;
+      }, 100);
 
-    setNewClient({ clientData, setFeedbackMessage });
+      setNewClient({ clientData, setFeedbackMessage });
+    }
   }
 
   return (

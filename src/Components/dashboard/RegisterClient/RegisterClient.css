@@ -14,13 +14,15 @@
 }
 
 #register-client-form > * {
+  background-color: black;
+  color: white;
   margin-top: 10px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 #feedback_message {
   text-align: center;
-  font-size: 30px;
+  font-size: 25px;
   padding: 10px;
   border: 1px solid rgba(255, 0, 0, 0.514);
   color: white;
@@ -33,10 +35,10 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: auto;
 }
 
 #submit_row > * {
   width: 200px;
   margin-top: 10px;
+  margin-right: auto;
 }

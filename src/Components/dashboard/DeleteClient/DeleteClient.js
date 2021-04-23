@@ -30,11 +30,7 @@ const DeleteClient = () => {
     const client_id = event.target.attributes[0].value;
     let new_arr = [];
 
-    //event.target.classList.add("animation_remove");
-
     setTimeout(() => {
-      //event.target.setAttribute("hidden", "true");
-
       clients.forEach((client) => {
         if (client_id.toString() !== client.id.toString()) {
           new_arr.push(client);
@@ -93,8 +89,6 @@ const DeleteClient = () => {
   }
 
   function goFoward(e) {
-    //setTempClients(clients);
-
     if (counterResultsPerPage === resultPerPage) {
       setPageIndex(pageIndex + 1);
       setStart(start + resultPerPage);
@@ -117,8 +111,6 @@ const DeleteClient = () => {
   }
 
   function goBack(e) {
-    //setTempClients(clients);
-
     if (start !== 0) {
       setPageIndex(pageIndex - 1);
       setStart(start - resultPerPage);
