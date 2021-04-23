@@ -7,33 +7,6 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 import "./DeleteClient.css";
 
-const removeClient = ({
-  event,
-  clients,
-  setClients,
-  setTempClients,
-  tempClients,
-}) => {
-  const client_id = event.target.attributes[0].value;
-  let new_arr = [];
-
-  event.target.classList.add("animation_remove");
-
-  setTimeout(() => {
-    event.target.setAttribute("hidden", "true");
-
-    clients.forEach((client) => {
-      if (client_id.toString() !== client.id.toString()) {
-        new_arr.push(client);
-      }
-    });
-
-    setClients(new_arr);
-  }, 500);
-
-  api.delete(`/api/clients/${client_id}`).then((response) => {});
-};
-
 const DeleteClient = () => {
   const [searchName, setSearchName] = useState("");
   const [clients, setClients] = useState([]);
@@ -52,6 +25,45 @@ const DeleteClient = () => {
   const [counterResults, setCounterResults] = useState(0);
   const resultPerPage = 12;
   let counterResultsPerPage = 0;
+
+  function removeClient({ event, clients, setClients, setTempClients }) {
+    const client_id = event.target.attributes[0].value;
+    let new_arr = [];
+
+    //event.target.classList.add("animation_remove");
+
+    setTimeout(() => {
+      //event.target.setAttribute("hidden", "true");
+
+      clients.forEach((client) => {
+        if (client_id.toString() !== client.id.toString()) {
+          new_arr.push(client);
+        }
+      });
+
+      setClients(new_arr);
+      setTempClients(new_arr);
+
+      setPageIndex(1);
+      setStart(0);
+      setCounterResults(new_arr.length);
+      setSearchName("");
+
+      setDisabled({
+        left: true,
+        right: false,
+      });
+
+      if (new_arr.length <= 12) {
+        setDisabled({
+          left: true,
+          right: true,
+        });
+      }
+    }, 500);
+
+    api.delete(`/api/clients/${client_id}`).then((response) => {});
+  }
 
   // Funções para avançar, retroceder, ir para última e primeira página
   function goFirst() {
@@ -81,7 +93,7 @@ const DeleteClient = () => {
   }
 
   function goFoward(e) {
-    setTempClients(clients);
+    //setTempClients(clients);
 
     if (counterResultsPerPage === resultPerPage) {
       setPageIndex(pageIndex + 1);
@@ -105,7 +117,7 @@ const DeleteClient = () => {
   }
 
   function goBack(e) {
-    setTempClients(clients);
+    //setTempClients(clients);
 
     if (start !== 0) {
       setPageIndex(pageIndex - 1);
@@ -133,15 +145,14 @@ const DeleteClient = () => {
         }
       });
 
+      setDisabled({
+        ...disabled,
+      });
+
       if (search_counter <= 12) {
         setDisabled({
           left: true,
           right: true,
-        });
-      } else {
-        setDisabled({
-          left: false,
-          right: false,
         });
       }
 
@@ -174,7 +185,6 @@ const DeleteClient = () => {
               setClients,
               clients,
               setTempClients,
-              tempClients,
             }),
         },
         {
@@ -251,13 +261,13 @@ const DeleteClient = () => {
               }
               return null;
             })}
-            <span id="control_page">
+            <span id="control_page_delete">
               <div className="buttons">
                 <button
                   className="fas fa-arrow-left"
                   style={
                     (disabled.left && { color: disabled.color }) || {
-                      color: "blue",
+                      color: "red",
                     }
                   }
                   onClick={goFirst}
@@ -280,7 +290,7 @@ const DeleteClient = () => {
                   className="fas fa-arrow-right"
                   style={
                     (disabled.right && { color: disabled.color }) || {
-                      color: "blue",
+                      color: "red",
                     }
                   }
                   onClick={goLast}

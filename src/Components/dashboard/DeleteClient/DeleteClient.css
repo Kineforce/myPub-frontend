@@ -117,3 +117,9 @@
   flex-direction: row;
   justify-content: space-around;
 }
+
+#control_page_delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

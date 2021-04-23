@@ -101,15 +101,14 @@ const SearchClient = () => {
         }
       });
 
+      setDisabled({
+        ...disabled,
+      });
+
       if (search_counter <= 12) {
         setDisabled({
           left: true,
           right: true,
-        });
-      } else {
-        setDisabled({
-          left: true,
-          right: false,
         });
       }
 
