@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import api from "../../../api";
 import debounce from "lodash.debounce";
 
+import ShowInfo from "./ShowInfo/ShowInfo";
 import "./SearchClient.css";
 
 const SearchClient = () => {
@@ -24,6 +25,10 @@ const SearchClient = () => {
   const [pageIndex, setPageIndex] = useState(1);
   let counterResultsPerPage = 0;
   const resultPerPage = 12;
+
+  function showClientInfo(event) {
+    //return <ShowInfo props={event} />;
+  }
 
   // Funções para avançar, retroceder, ir para última e primeira página
   function goFirst() {
@@ -186,6 +191,9 @@ const SearchClient = () => {
                 return (
                   <div
                     className="client-row_search"
+                    onClick={() => {
+                      showClientInfo({ client });
+                    }}
                     key={key}
                     id={key}
                     {...(counterResultsPerPage = counterResultsPerPage + 1)}
