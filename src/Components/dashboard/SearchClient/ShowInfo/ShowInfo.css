@@ -1,0 +1,76 @@
+.showInfoDiv {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  width: 98%;
+  height: 98%;
+  font-size: 25px;
+}
+
+.titleBasicInfo {
+  color: white;
+  flex: 10%;
+}
+
+.titleClientActions {
+  color: white;
+  flex: 10%;
+}
+
+.dataClientActions {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 90%;
+}
+
+.basicInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.397);
+  border-radius: 15px;
+  margin: 5px;
+  flex: 40%;
+}
+
+.clientActions {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.397);
+  margin: 5px;
+  flex: 60%;
+}
+
+.dataBasicInfo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 90%;
+}
+
+.subTitlesDataBasicInfo {
+  color: white;
+  margin-top: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.164);
+}
+
+.itemDataBasicInfo {
+  color: rgb(204, 78, 204);
+}
+
+.btnHist {
+  width: 40px;
+  color: rgb(204, 78, 204);
+  margin-left: 10px;
+}
+
+.actionField {
+  background-color: black;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  color: white;
+  width: 150px;
+}

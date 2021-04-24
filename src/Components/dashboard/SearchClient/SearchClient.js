@@ -5,7 +5,7 @@ import debounce from "lodash.debounce";
 import ShowInfo from "./ShowInfo/ShowInfo";
 import "./SearchClient.css";
 
-const SearchClient = () => {
+const SearchClient = ({ setComponent }) => {
   const [clients, setClients] = useState([]);
   const [tempClients, setTempClients] = useState([]);
   const [disabled, setDisabled] = useState({
@@ -27,7 +27,9 @@ const SearchClient = () => {
   const resultPerPage = 12;
 
   function showClientInfo(event) {
-    //return <ShowInfo props={event} />;
+    setComponent({
+      curr_component: <ShowInfo setComponent={setComponent} props={event} />,
+    });
   }
 
   // Funções para avançar, retroceder, ir para última e primeira página

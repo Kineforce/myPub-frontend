@@ -21,13 +21,13 @@ const Dashboard = () => {
 
   const searchClient = () => {
     setComponent({
-      curr_component: <SearchClient />,
+      curr_component: <SearchClient setComponent={setComponent} />,
     });
   };
 
   const registerClient = () => {
     setComponent({
-      curr_component: <RegisterClient />,
+      curr_component: <RegisterClient setComponent={setComponent} />,
     });
   };
 

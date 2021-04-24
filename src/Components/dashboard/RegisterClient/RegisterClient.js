@@ -52,6 +52,7 @@ const RegisterClient = () => {
 
     setFeedbackMessage("");
 
+    console.log(event);
     for (let i = 0; i < event.target.form.length; i++) {
       event.target.form[i].style.borderColor = "";
     }
@@ -106,6 +107,7 @@ const RegisterClient = () => {
       )}
 
       <form id="register-client-form" onSubmit={handleSubmit}>
+        <span>Nome</span>
         <input
           type="text"
           className="form-control"
@@ -114,6 +116,7 @@ const RegisterClient = () => {
           onChange={onChange}
           placeholder="Insira o nome"
         />
+        <span>CPF</span>
         <InputMask
           type="text"
           className="form-control"
@@ -123,14 +126,21 @@ const RegisterClient = () => {
           onChange={onChange}
           placeholder="Insira o CPF"
         />
-        <input
-          type="text"
+        <span>Sexo</span>
+        <select
           className="form-control"
-          name="gender"
-          value={clientData.gender}
           onChange={onChange}
-          placeholder="Insira o gênero"
-        />
+          style={{ textIndent: "0px" }}
+        >
+          <option value=""></option>
+          <option value="m" style={{ color: "white" }}>
+            Masculino
+          </option>
+          <option value="f" style={{ color: "white" }}>
+            Feminino
+          </option>
+        </select>
+        <span>Telefone</span>
         <InputMask
           type="text"
           className="form-control"
@@ -140,6 +150,7 @@ const RegisterClient = () => {
           onChange={onChange}
           placeholder="Insira o telefone"
         />
+        <span>Endereço</span>
         <input
           type="text"
           className="form-control"
