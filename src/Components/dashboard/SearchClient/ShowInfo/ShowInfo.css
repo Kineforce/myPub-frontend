@@ -41,10 +41,18 @@
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.397);
   margin: 5px;
+  overflow-y: auto;
   flex: 60%;
 }
 
 .dataBasicInfo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 90%;
+}
+
+.actionDataInfo {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -64,13 +72,33 @@
 .btnHist {
   width: 40px;
   color: rgb(204, 78, 204);
-  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .actionField {
   background-color: black;
   margin-bottom: 10px;
-  margin-left: 10px;
   color: white;
-  width: 150px;
+  width: 100%;
+}
+
+.saveActionField {
+  color: rgb(204, 78, 204);
+  cursor: pointer;
+}
+
+.saveActionField:nth-child(2) {
+  margin-left: 20px;
+}
+
+.saveFeedback {
+  margin-left: 10px;
+}
+
+.action {
+  color: white;
+  border: 1px solid palevioletred;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
 }
