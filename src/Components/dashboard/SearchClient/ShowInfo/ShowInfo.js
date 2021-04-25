@@ -3,92 +3,42 @@ import { useState, useEffect } from "react";
 import "./ShowInfo.css";
 import api from "../../../../api";
 
-const ActionField = () => {
-  const [inputInfo, setInputInfo] = useState("");
-  const [showButton, setShowButton] = useState(false);
-
-  const [feedbackMsg, setFeedbackMsg] = useState({
-    feedbackMsg: "",
-    color: "",
-  });
-
-  function showActionField() {
-    setShowButton(true);
-  }
-
-  function handleValue(event) {
-    setInputInfo(event.target.value);
-  }
-
-  function closeButton() {
-    setShowButton(false);
-  }
-
-  function checkEmpty() {
-    if (inputInfo === "") {
-      setFeedbackMsg({
-        feedbackMsg: "Please, insert some action!",
-        color: "rgba(255, 0, 0, 0.76)",
-      });
-      return;
-    }
-
-    setFeedbackMsg({
-      feedbackMsg: "Action saved!",
-      color: "rgb(204, 78, 204)",
-    });
-  }
-
-  const SaveActionField = () => {
-    return (
-      <div>
-        <i
-          className="fas fa-save saveActionField"
-          onClick={() => checkEmpty()}
-        ></i>
-        <i
-          className="fas fa-times saveActionField"
-          onClick={() => closeButton()}
-        ></i>
-        {feedbackMsg.feedbackMsg && (
-          <span className="saveFeedback" style={{ color: feedbackMsg.color }}>
-            {feedbackMsg.feedbackMsg}
-          </span>
-        )}
-        <input
-          className="actionField"
-          type="text"
-          value={inputInfo}
-          onChange={handleValue}
-        />
-      </div>
-    );
-  };
-
-  return (
-    <div>
-      {showButton && <SaveActionField />}
-      <button
-        className="btnHist"
-        type="submit"
-        title="Adicionar novo item"
-        onClick={showActionField}
-      >
-        +
-      </button>
-    </div>
-  );
-};
+import ActionField from "./ActionField/ActionField";
+import UpdateField from "./ActionField/UpdateField";
 
 const ShowInfo = (props) => {
   const [actions, setActions] = useState([]);
+  const [isShown, setIsShown] = useState();
+  const [isUpdate, setIsUpdate] = useState(false);
   let client_id = props.props.client.id;
 
+  function refreshActions() {
+    api.get(`api/clients/getAction/` + client_id).then((response) => {
+      setActions(response.data);
+    });
+    setIsUpdate(false);
+  }
+
   useEffect(() => {
-    api.get(`api/clients/addAction/` + client_id).then((response) => {
+    api.get(`api/clients/getAction/` + client_id).then((response) => {
       setActions(response.data);
     });
   }, [client_id]);
+
+  function deleteAction(action_id) {
+    api.delete(`/api/clients/delAction/${action_id}`).then((response) => {
+      refreshActions();
+    });
+  }
+
+  function updateAction(action_id) {
+    setIsShown(false);
+    setIsUpdate(action_id);
+  }
+
+  function handleMouseEnter(client_id) {
+    setIsShown(client_id);
+  }
 
   return (
     <>
@@ -119,13 +69,47 @@ const ShowInfo = (props) => {
           <div className="actionDataInfo">
             {actions.map((action) => {
               return (
-                <span key={action.id} className="action">
-                  {action.action}
-                </span>
+                <div
+                  key={action.id}
+                  id={action.id}
+                  className="action"
+                  onMouseEnter={() => {
+                    handleMouseEnter(action.id);
+                  }}
+                >
+                  <span className="text_action">
+                    {action.action}
+                    {isUpdate === action.id && (
+                      <UpdateField
+                        actionId={action.id}
+                        currTextAction={action.action}
+                        refresh={refreshActions}
+                        setIsUpdate={setIsUpdate}
+                      />
+                    )}
+                  </span>
+                  {isShown === action.id && (
+                    <span className="mod_action">
+                      <span
+                        className="deleteAction fas fa-trash"
+                        onClick={() => deleteAction(action.id)}
+                        title="Deletar ação"
+                      ></span>
+                      <span
+                        className="updateAction fas fa-pen"
+                        onClick={() => updateAction(action.id)}
+                        title="Atualizar ação"
+                      ></span>
+                    </span>
+                  )}
+                </div>
               );
             })}
             <div className="dataClientActions">
-              <ActionField />
+              <ActionField
+                clientId={client_id}
+                refreshActions={refreshActions}
+              />
             </div>
           </div>
         </div>

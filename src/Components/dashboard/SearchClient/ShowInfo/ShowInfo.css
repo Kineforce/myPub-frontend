@@ -15,6 +15,7 @@
 .titleClientActions {
   color: white;
   flex: 10%;
+  min-height: 68px;
 }
 
 .dataClientActions {
@@ -96,9 +97,63 @@
 }
 
 .action {
-  color: white;
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
   border: 1px solid palevioletred;
+  color: white;
   border-radius: 5px;
   padding: 10px;
   margin-top: 10px;
+}
+
+.action .text_action {
+  word-break: break-all;
+}
+
+.mod_action {
+  display: flex;
+  flex-direction: column;
+  width: 30px;
+  margin-left: auto;
+}
+
+.mod_action > *:nth-child(2) {
+  margin-top: 10px;
+}
+
+.deleteAction {
+  cursor: pointer;
+  color: red;
+}
+
+.updateAction {
+  cursor: pointer;
+  color: yellow;
+}
+
+.saveUpdateAction {
+  display: flex;
+  flex-direction: column;
+}
+
+.saveBtn {
+  margin-top: 5px;
+  color: rgb(204, 78, 204);
+}
+
+.inputUpdate {
+  color: white;
+  background-color: black;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.updateBtns > *:hover {
+  cursor: pointer;
+}
+
+.updateBtns > *:nth-child(2) {
+  margin-left: 10px;
 }
