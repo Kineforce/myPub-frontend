@@ -86,6 +86,7 @@
 .saveActionField {
   color: rgb(204, 78, 204);
   cursor: pointer;
+  background-color: black;
 }
 
 .saveActionField:nth-child(2) {
@@ -137,11 +138,6 @@
   flex-direction: column;
 }
 
-.saveBtn {
-  margin-top: 5px;
-  color: rgb(204, 78, 204);
-}
-
 .inputUpdate {
   color: white;
   background-color: black;
@@ -156,4 +152,41 @@
 
 .updateBtns > *:nth-child(2) {
   margin-left: 10px;
+}
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.inputBox > * {
+  background-color: black;
+  color: white;
+}
+
+.actionField {
+  width: 120px;
+  padding: 5px;
+  text-indent: 0px;
+  margin-top: 5px;
+}
+
+.priceField {
+  background-color: black;
+  color: white;
+  width: 140px;
+  padding: 7px;
+}
+
+.productField {
+  margin-top: 10px;
+  text-indent: 7px;
+  background-color: black;
+  color: white;
+}
+
+.formAction {
+  display: flex;
+  flex-direction: column;
 }

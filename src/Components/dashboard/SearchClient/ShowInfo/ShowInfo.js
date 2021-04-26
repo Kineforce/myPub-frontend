@@ -73,17 +73,18 @@ const ShowInfo = (props) => {
                   key={action.id}
                   id={action.id}
                   className="action"
-                  onMouseEnter={() => {
+                  onMouseMove={() => {
                     handleMouseEnter(action.id);
                   }}
                 >
                   <span className="text_action">
-                    {action.action}
+                    {action.action} - R$ {action.price} - {action.product} -{" "}
+                    {action.formated_date.date} {action.formated_date.hour}
                     {isUpdate === action.id && (
                       <UpdateField
                         actionId={action.id}
                         currTextAction={action.action}
-                        refresh={refreshActions}
+                        refreshActions={refreshActions}
                         setIsUpdate={setIsUpdate}
                       />
                     )}

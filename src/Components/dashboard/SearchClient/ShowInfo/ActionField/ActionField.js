@@ -2,42 +2,49 @@ import { useState } from "react";
 
 import api from "../../../../../api";
 
-const SaveActionField = ({
-  checkEmpty,
-  closeButton,
-  feedbackMsg,
-  inputInfo,
-  handleValue,
-}) => {
+const SaveActionField = ({ closeButton, feedbackMsg, handleValue }) => {
   return (
-    <div>
-      <i
-        className="fas fa-save saveActionField"
-        onClick={() => checkEmpty()}
-        title="Salvar ação"
-      ></i>
-      <i
-        className="fas fa-times saveActionField"
-        onClick={() => closeButton()}
-        title="Cancelar inserção"
-      ></i>
-      {feedbackMsg.feedbackMsg && (
-        <span className="saveFeedback" style={{ color: feedbackMsg.color }}>
-          {feedbackMsg.feedbackMsg}
-        </span>
-      )}
-      <input
-        className="actionField"
-        type="text"
-        value={inputInfo}
-        onChange={handleValue}
-      />
+    <div className="inputBox">
+      <form className="formAction" onSubmit={handleValue}>
+        <div className="inputBox_methods">
+          <button
+            type="submit"
+            className="fas fa-save saveActionField"
+            title="Salvar ação"
+          ></button>
+          <i
+            className="fas fa-times saveActionField"
+            onClick={() => closeButton()}
+            title="Cancelar inserção"
+          ></i>
+          {feedbackMsg.feedbackMsg && (
+            <span className="saveFeedback" style={{ color: feedbackMsg.color }}>
+              {feedbackMsg.feedbackMsg}
+            </span>
+          )}
+        </div>
+        <select className="actionField" type="text" name="action">
+          <option value="Pagar">Pagou</option>
+          <option value="Dever">Deveu</option>
+        </select>
+        <input
+          className="priceField"
+          type="text"
+          placeholder="R$ 00.00"
+          name="price"
+        ></input>
+        <input
+          className="productField"
+          type="text"
+          name="product"
+          placeholder="Produto"
+        />
+      </form>
     </div>
   );
 };
 
 const ActionField = ({ clientId, refreshActions }) => {
-  const [inputInfo, setInputInfo] = useState("");
   const [showButton, setShowButton] = useState(false);
 
   const [feedbackMsg, setFeedbackMsg] = useState({
@@ -50,19 +57,15 @@ const ActionField = ({ clientId, refreshActions }) => {
   }
 
   function handleValue(event) {
-    setInputInfo(event.target.value);
-  }
+    event.preventDefault();
 
-  function closeButton() {
-    setFeedbackMsg({});
-    setInputInfo("");
-    setShowButton(false);
-  }
+    let action = event.target.action.value;
+    let price = event.target.price.value;
+    let product = event.target.product.value;
 
-  function checkEmpty() {
-    if (inputInfo === "") {
+    if (action === "" || price === "" || product === "") {
       setFeedbackMsg({
-        feedbackMsg: "Please, insert some action!",
+        feedbackMsg: "Please, fill all the fields!",
         color: "rgba(255, 0, 0, 0.76)",
       });
       return;
@@ -71,7 +74,9 @@ const ActionField = ({ clientId, refreshActions }) => {
     api
       .post(`/api/clients/addAction`, {
         client_id: clientId,
-        action: inputInfo,
+        action: action,
+        price: price,
+        product: product,
       })
       .then((response) => {
         setFeedbackMsg({
@@ -82,23 +87,25 @@ const ActionField = ({ clientId, refreshActions }) => {
         refreshActions();
         setShowButton(false);
         setFeedbackMsg({});
-        setInputInfo("");
+        //setInputInfo("");
       })
       .catch((error) => {
         console.log("Something wrong happened!");
       });
   }
 
+  function closeButton() {
+    setFeedbackMsg({});
+    setShowButton(false);
+  }
+
   return (
     <div>
       {showButton && (
         <SaveActionField
-          checkEmpty={checkEmpty}
           closeButton={closeButton}
           feedbackMsg={feedbackMsg}
-          inputInfo={inputInfo}
           handleValue={handleValue}
-          clientId={clientId}
         />
       )}
 
