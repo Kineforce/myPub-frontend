@@ -7,8 +7,7 @@ import "./Dashboard.css";
 
 import SearchClient from "./SearchClient/SearchClient";
 import RegisterClient from "./RegisterClient/RegisterClient";
-import ListDebts from "./ListDebts/ListDebts";
-import ListProfits from "./ListProfit/ListProfits";
+import Reporter from "./Reporter/Reporter";
 import DeleteClient from "./DeleteClient/DeleteClient";
 
 const Dashboard = () => {
@@ -39,13 +38,7 @@ const Dashboard = () => {
 
   const listDebts = () => {
     setComponent({
-      curr_component: <ListDebts />,
-    });
-  };
-
-  const listProfits = () => {
-    setComponent({
-      curr_component: <ListProfits />,
+      curr_component: <Reporter />,
     });
   };
 
@@ -58,7 +51,6 @@ const Dashboard = () => {
           <span onClick={registerClient}>Cadastrar cliente</span>
           <span onClick={deleteClient}>Excluir cliente</span>
           <span onClick={listDebts}>Listar total de dívidas</span>
-          <span onClick={listProfits}>Listar total de ganhos</span>
           <span onClick={handleLogout}>Logout</span>
         </nav>
       </header>

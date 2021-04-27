@@ -24,8 +24,8 @@ const SaveActionField = ({ closeButton, feedbackMsg, handleValue }) => {
           )}
         </div>
         <select className="actionField" type="text" name="action">
-          <option value="Pagar">Pagou</option>
-          <option value="Dever">Deveu</option>
+          <option value="Pagou">Pagou</option>
+          <option value="Deveu">Deveu</option>
         </select>
         <input
           className="priceField"

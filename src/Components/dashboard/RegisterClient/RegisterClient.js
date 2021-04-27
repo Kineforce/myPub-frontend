@@ -28,11 +28,19 @@ const RegisterClient = () => {
   const [colors, setColors] = useState({
     red: "rgba(255, 0, 0, 0.411)",
     blue: "rgba(9, 78, 228, 0.514)",
-    feedback_color: "#e4433d",
+    feedback_color: "",
+    grey: "#6c757d",
   });
 
   function onChange(event) {
     const { name, value } = event.target;
+
+    if (name === "gender") {
+      setColors({
+        ...colors,
+        grey: "white",
+      });
+    }
 
     setClientData({
       ...clientData,
@@ -67,14 +75,14 @@ const RegisterClient = () => {
         event.target[i].value === "" &&
         event.target[i].name !== "submit_btn" &&
         event.target[i].name !== "cpf" &&
-        event.target[i].name !== "adress" &&
-        event.target[i].name !== "gender"
+        event.target[i].name !== "adress"
       ) {
         setFeedbackMessage(
           `Por favor, preencha corretamente os campos em vermelho`
         );
         setColors({
           feedback_color: "#e4433d",
+          grey: "#e4433d",
         });
         event.target[i].classList.add("placeholder_red");
         canSubmit = false;
@@ -130,9 +138,13 @@ const RegisterClient = () => {
         <select
           className="form-control"
           onChange={onChange}
-          style={{ textIndent: "0px" }}
+          style={{
+            color: colors.grey,
+            textIndent: "0px",
+          }}
+          name="gender"
         >
-          <option value=""></option>
+          <option value="">Insira o Sexo</option>
           <option value="m" style={{ color: "white" }}>
             Masculino
           </option>
