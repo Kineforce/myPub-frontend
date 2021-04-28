@@ -11,12 +11,12 @@ const GroupedBar = ({ reportData }) => {
     labels: [...reportData.years],
     datasets: [
       {
-        label: "Total de dívidas",
+        label: "Total de dívidas R$",
         data: [...reportData.sumDebts],
         backgroundColor: "rgb(255, 99, 132)",
       },
       {
-        label: "Total de pagamentos",
+        label: "Total de pagamentos R$",
         data: [...reportData.sumProfits],
         backgroundColor: "rgb(54, 162, 235)",
       },
@@ -38,13 +38,12 @@ const GroupedBar = ({ reportData }) => {
           </a>
         </div>
       </div>
-      <Bar data={data} className="reportCanvas" />
+      <Bar data={data} className="reportCanvas" width={300} height={100} />
     </>
   );
 };
 
 const ReportData = () => {
-  const [showData, setShowData] = useState(false);
   const [reportData, setReportData] = useState({
     sumDebts: [],
     sumProfits: [],
@@ -63,14 +62,12 @@ const ReportData = () => {
     api
       .get(
         `api/clients/getReport/${
-          dataReport.year === "" ? "0" : dataReport.year
-        }/${dataReport.month === "" ? "0" : dataReport.month}/${
-          dataReport.client === "" ? "0" : dataReport.client
+          dataReport.year === "" ? "empty" : dataReport.year
+        }/${dataReport.month === "" ? "empty" : dataReport.month}/${
+          dataReport.client === "" ? "empty" : dataReport.client
         }`
       )
       .then((response) => {
-        setShowData(true);
-
         let sumDebts = [];
         let sumProfits = [];
         let years = [];
@@ -127,13 +124,13 @@ const ReportData = () => {
           value={dataReport.year}
           onChange={handleValue}
         />
-        <input
+        {/* <input
           type="text"
           name="month"
           placeholder="Insira o mês..."
           value={dataReport.month}
           onChange={handleValue}
-        />
+        /> */}
         <input
           type="text"
           name="client"
@@ -145,11 +142,9 @@ const ReportData = () => {
       </form>
 
       <div className="containerResultsReport">
-        {showData === true && (
-          <div className="ResultsReport">
-            <GroupedBar reportData={reportData} />
-          </div>
-        )}
+        <div className="ResultsReport">
+          <GroupedBar reportData={reportData} />
+        </div>
       </div>
     </div>
   );
