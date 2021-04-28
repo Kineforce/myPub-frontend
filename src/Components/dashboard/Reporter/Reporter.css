@@ -39,3 +39,42 @@
   padding: 10px;
   border: 1px solid white;
 }
+
+@media only screen and (max-width: 1920px) {
+  .reportCanvas {
+    position: relative;
+    max-width: 1500px;
+    max-height: 500px;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .reportCanvas {
+    position: relative;
+    max-width: 900px;
+    max-height: 400px;
+  }
+}
+
+@media only screen and (max-height: 720px) {
+  .reportCanvas {
+    background-color: aqua;
+    height: 200px;
+  }
+}
+
+@media only screen and (max-width: 1380px) {
+  .reportCanvas {
+    position: relative;
+    max-width: 700px;
+    max-height: 500px;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .reportCanvas {
+    position: relative;
+    max-width: 500px;
+    max-height: 500px;
+  }
+}

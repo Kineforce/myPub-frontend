@@ -38,7 +38,7 @@ const GroupedBar = ({ reportData }) => {
           </a>
         </div>
       </div>
-      <Bar data={data} className="reportCanvas" width={300} height={100} />
+      <Bar data={data} className="reportCanvas" />
     </>
   );
 };
