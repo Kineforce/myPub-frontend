@@ -50,7 +50,7 @@ const Dashboard = () => {
           <span onClick={searchClient}>Buscar cliente</span>
           <span onClick={registerClient}>Cadastrar cliente</span>
           <span onClick={deleteClient}>Excluir cliente</span>
-          <span onClick={listDebts}>Listar total de dívidas</span>
+          <span onClick={listDebts}>Relatório de economias</span>
           <span onClick={handleLogout}>Logout</span>
         </nav>
       </header>
