@@ -52,7 +52,9 @@ const ShowInfo = (props) => {
             <span className="itemDataBasicInfo">{props.props.client.cpf}</span>
             <span className="subTitlesDataBasicInfo">Sexo</span>
             <span className="itemDataBasicInfo">
-              {props.props.client.gender === "f" ? "Feminino" : "Masculino"}
+              {props.props.client.gender === "f" && "Feminino"}
+              {props.props.client.gender === "m" && "Masculino"}
+              {props.props.client.gender === "o" && "Não informado"}
             </span>
             <span className="subTitlesDataBasicInfo">Telefone</span>
             <span className="itemDataBasicInfo">
