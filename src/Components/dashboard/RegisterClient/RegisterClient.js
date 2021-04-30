@@ -60,10 +60,14 @@ const RegisterClient = () => {
 
     setFeedbackMessage("");
 
-    console.log(event);
     for (let i = 0; i < event.target.form.length; i++) {
       event.target.form[i].style.borderColor = "";
+      event.target.form[i].classList.remove("placeholder_red");
     }
+
+    setColors({
+      grey: "#6c757d",
+    });
   };
 
   function handleSubmit(event) {

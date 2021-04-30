@@ -59,13 +59,13 @@ const ReportData = () => {
   function handleSubmit(event) {
     event.preventDefault();
 
+    let year = event.target.year.value;
+    let client = event.target.client.value;
     api
       .get(
-        `api/clients/getReport/${
-          dataReport.year === "" ? "empty" : dataReport.year
-        }/${dataReport.month === "" ? "empty" : dataReport.month}/${
-          dataReport.client === "" ? "empty" : dataReport.client
-        }`
+        `api/clients/getReport/${year === "" ? "empty" : year}/${
+          dataReport.month === "" ? "empty" : dataReport.month
+        }/${client === "" ? "empty" : client}`
       )
       .then((response) => {
         let sumDebts = [];
@@ -99,31 +99,25 @@ const ReportData = () => {
       });
   }
 
-  function handleValue(event) {
-    const { name, value } = event.target;
+  // function handleValue(event) {
+  //   const { name, value } = event.target;
 
-    if (name === "year" || name === "month") {
-      if (value.match(/[^0-9]/gi)) {
-        return;
-      }
-    }
+  //   if (name === "year" || name === "month") {
+  //     if (value.match(/[^0-9]/gi)) {
+  //       return;
+  //     }
+  //   }
 
-    setDataReport({
-      ...dataReport,
-      [name]: value,
-    });
-  }
+  //   setDataReport({
+  //     ...dataReport,
+  //     [name]: value,
+  //   });
+  // }
 
   return (
     <div className="Report">
       <form onSubmit={handleSubmit} className="formReport">
-        <input
-          type="text"
-          name="year"
-          placeholder="Insira o ano..."
-          value={dataReport.year}
-          onChange={handleValue}
-        />
+        <input type="text" name="year" placeholder="Insira o ano..." />
         {/* <input
           type="text"
           name="month"
@@ -131,13 +125,7 @@ const ReportData = () => {
           value={dataReport.month}
           onChange={handleValue}
         /> */}
-        <input
-          type="text"
-          name="client"
-          placeholder="Insira o cliente..."
-          value={dataReport.client}
-          onChange={handleValue}
-        />
+        <input type="text" name="client" placeholder="Insira o cliente..." />
         <button type="submit">Enviar</button>
       </form>
 
