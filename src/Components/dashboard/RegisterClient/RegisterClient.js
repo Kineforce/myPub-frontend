@@ -5,7 +5,7 @@ import InputMask from "react-input-mask";
 import "./RegisterClient.css";
 
 const setNewClient = ({ clientData }) => {
-  api.post(`/api/clients/`, {
+  api.post(`/api/clients`, {
     name: clientData.name,
     cpf: clientData.cpf,
     gender: clientData.gender,
