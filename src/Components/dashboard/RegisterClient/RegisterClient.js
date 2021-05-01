@@ -63,9 +63,14 @@ const RegisterClient = () => {
     for (let i = 0; i < event.target.form.length; i++) {
       event.target.form[i].style.borderColor = "";
       event.target.form[i].classList.remove("placeholder_red");
+
+      if (event.target.form[i].name === "gender") {
+        event.target.form[i].style.color = "#6c757d";
+      }
     }
 
     setColors({
+      ...colors,
       grey: "#6c757d",
     });
   };
@@ -74,24 +79,78 @@ const RegisterClient = () => {
     event.preventDefault();
     let canSubmit = true;
 
+    let name = {
+      path: "",
+      validated: true,
+    };
+    let gender = {
+      path: "",
+      validated: true,
+    };
+    let phone_number = {
+      path: "",
+      validated: true,
+    };
+
     for (let i = 0; i < event.target.length; i++) {
+      let currInput = event.target[i];
+
       if (
-        event.target[i].value === "" &&
-        event.target[i].name !== "submit_btn" &&
-        event.target[i].name !== "cpf" &&
-        event.target[i].name !== "adress"
+        currInput.value === "" &&
+        currInput.name !== "submit_btn" &&
+        currInput.name !== "cpf" &&
+        currInput.name !== "adress"
       ) {
         setFeedbackMessage(
           `Por favor, preencha corretamente os campos em vermelho`
         );
-        setColors({
-          feedback_color: "#e4433d",
-          grey: "#e4433d",
-        });
-        event.target[i].classList.add("placeholder_red");
+
+        if (currInput.name === "name") {
+          name = {
+            path: currInput,
+            validated: false,
+          };
+        }
+
+        if (currInput.name === "gender") {
+          gender = {
+            path: currInput,
+            validated: false,
+          };
+        }
+
+        if (currInput.name === "phone_number") {
+          phone_number = {
+            path: currInput,
+            validated: false,
+          };
+        }
+
         canSubmit = false;
       }
     }
+
+    if (name.validated === false) {
+      name.path.classList.add("placeholder_red");
+    }
+
+    if (gender.validated === false) {
+      gender.path.style.color = "#e4433d";
+    }
+
+    if (phone_number.validated === false) {
+      phone_number.path.classList.add("placeholder_red");
+    }
+
+    console.clear();
+    console.log(name);
+    console.log(gender);
+    console.log(phone_number);
+
+    setColors({
+      ...colors,
+      feedback_color: "#e4433d",
+    });
 
     if (canSubmit === true) {
       setFeedbackMessage("Cliente cadastrado com sucesso!");
@@ -149,9 +208,6 @@ const RegisterClient = () => {
           name="gender"
         >
           <option value="">Insira o Sexo</option>
-          <option value="o" style={{ color: "white" }}>
-            Outro
-          </option>
           <option value="m" style={{ color: "white" }}>
             Masculino
           </option>
