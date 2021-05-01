@@ -208,7 +208,7 @@ const RegisterClient = () => {
           name="gender"
         >
           <option value="">Insira o Sexo</option>
-          <option value="m" style={{ color: "white" }}>
+          <option value="o" style={{ color: "white" }}>
             Não informado
           </option>
           <option value="m" style={{ color: "white" }}>
